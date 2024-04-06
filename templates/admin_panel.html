@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h2>Admin Panel</h2>
+    <a href="/logout">Logout</a>
+    <ul>
+        {% for contribution in contributions %}
+        <li>{{ contribution.name }} - {{ contribution.amount }} - <a href="/delete/{{ contribution.id }}">Delete</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

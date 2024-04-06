@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meal Contribution Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Contribution Form</h2>
+    <form action="/" method="POST" id="contributionForm" onsubmit="return confirmSubmission()">
+
+        <!-- Existing form fields remain unchanged -->
+        <div class="form-group">
+            <label for="name">Name</label>
+            <select class="form-control" id="name" name="name">
+                <option>John Doe</option>
+                <option>Jane Doe</option>
+                <!-- Dynamically add more options here -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" class="form-control" id="amount" name="amount" required>
+        
+            <label for="details">Details</label>
+            <textarea class="form-control" id="details" name="details"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <hr>
+    <a href="/last_month" class="btn btn-info">Show Last Month</a>
+    <h3>Summary of Contributions for {{ display_month }}</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Total Contribution</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for name, total_amount in summary_contributions %}
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ total_amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Contributions for {{ display_month }}</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Name</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contribution in contributions %}
+            <tr>
+                <td>{{ contribution.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ contribution.name }}</td>
+                <td>{{ contribution.amount }}</td>
+                <td>{{ contribution.details }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+<script>
+    function confirmSubmission() {
+        const name = document.getElementById('name').value;
+        const amount = document.getElementById('amount').value;
+        const details = document.getElementById('details').value;
+        const confirmationMessage = `Are you sure you want to submit this contribution?\n\n` +
+                                    `Name: ${name}\n` +
+                                    `Amount: ${amount}\n` +
+                                    `Details: ${details}`;
+    
+        return confirm(confirmationMessage);
+    }
+    </script>
+    
+</html>
