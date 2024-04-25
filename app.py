@@ -128,4 +128,4 @@ def last_month():
     return redirect(url_for('index', month=last_month_date))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5002)
