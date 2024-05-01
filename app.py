@@ -108,12 +108,15 @@ def index():
             func.sum(Contribution.amount).label('total_amount')
         ).filter(Contribution.month_year == selected_month).group_by(Contribution.name).all()
     else:
-        contributions = Contribution.query.order_by(Contribution.date).all()
+        current_month = datetime.now().strftime('%m-%Y')
+        selected_month = request.args.get('month', current_month)
+        
+        contributions = Contribution.query.filter(Contribution.month_year == selected_month).order_by(Contribution.date).all()
         # Compute the sum of contributions per person for all months
         summary_contributions = db.session.query(
             Contribution.name, 
             func.sum(Contribution.amount).label('total_amount')
-        ).group_by(Contribution.name).all()
+        ).filter(Contribution.month_year == selected_month).group_by(Contribution.name).all()
 
     display_month = selected_month if selected_month else datetime.now().strftime('%m-%Y')
     
